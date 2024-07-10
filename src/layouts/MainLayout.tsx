@@ -4,11 +4,11 @@ import { Outlet } from 'react-router-dom';
 const MainLayout: FC = () => {
   return (
     <>
-      <div>MainLayout header</div>
+      <div>主布局 头部</div>
       <div>
         <Outlet />
       </div>
-      <div>footer</div>
+      <div>主布局 底部</div>
     </>
   );
 };

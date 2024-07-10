@@ -3,7 +3,7 @@ import { FC } from 'react';
 const Star: FC = () => {
   return (
     <>
-      <div>Star</div>
+      <div>收藏</div>
     </>
   );
 };

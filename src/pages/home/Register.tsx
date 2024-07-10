@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 const Register: FC = () => {
-  return <div>Register</div>;
+  return <div>注册</div>;
 };
 
 export default Register;
