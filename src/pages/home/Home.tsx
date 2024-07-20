@@ -1,30 +1,32 @@
 import { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Flex } from 'antd';
+import { Button, Typography } from 'antd';
+import { LIST, MANAGE, wrapPath } from '@/router/routerConstant.ts';
+import { useNavigate } from 'react-router-dom';
+import styles from './Home.module.scss';
+
+
+const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
   const nav = useNavigate();
 
-  function gotoLogin() {
-    nav({
-      pathname: '/login',
-      search: 'b=21',
-    });
-  }
-
   return (
     <>
-      <p>Home</p>
-      <div>
-        <Flex gap="small" wrap>
-          <Button type="primary">Primary Button</Button>
-          <Button>Default Button</Button>
-          <Button type="dashed">Dashed Button</Button>
-          <Button type="text">Text Button</Button>
-          <Button type="link">Link Button</Button>
-        </Flex>
-        <Button onClick={gotoLogin}>登录</Button>
-        <Link to="/register">注册</Link>
+      <div className={styles.container}>
+        <div className={styles.info}>
+          <Title>问卷调查 | 在线投票 </Title>
+          <Paragraph>已经调查数量</Paragraph>
+          <div>
+            <Button
+              type="default"
+              onClick={() => {
+                nav(wrapPath(MANAGE, LIST));
+              }}
+            >
+              开始使用
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );

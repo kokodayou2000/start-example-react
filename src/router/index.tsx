@@ -11,59 +11,72 @@ import Trash from '@/pages/manage/Trash.tsx';
 import QuestionLayout from '@/layouts/QuestionLayout.tsx';
 import Status from '@/pages/quest/Status';
 import Edit from '@/pages/quest/Edit';
+import {
+  DASH,
+  EDIT,
+  HOME,
+  LIST,
+  LOGIN,
+  MANAGE,
+  QUESTION,
+  REGISTER,
+  STAR,
+  STATUS,
+  TRASH,
+} from '@/router/routerConstant.ts';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: HOME,
     element: <MainLayout />,
     children: [
       {
-        path: '/',
+        path: HOME,
         element: <Home />,
       },
       {
-        path: 'login',
+        path: LOGIN,
         element: <Login />,
       },
       {
-        path: 'register',
+        path: REGISTER,
         element: <Register />,
       },
       {
-        path: 'manage',
+        path: MANAGE,
         element: <ManageLayout />,
         children: [
           {
-            path: 'list',
+            path: LIST,
             element: <List />,
           },
           {
-            path: 'star',
+            path: STAR,
             element: <Star />,
           },
           {
-            path: 'trash',
+            path: TRASH,
             element: <Trash />,
           },
         ],
       },
 
       {
-        path: '*',
+        path: DASH,
         element: <NotFound />,
       },
     ],
   },
   {
-    path: 'question',
+    path: QUESTION,
     element: <QuestionLayout />,
     children: [
       {
-        path: 'edit',
+        path: EDIT,
         element: <Edit />,
       },
       {
-        path: 'status/:id',
+        path: STATUS + '/:id',
         element: <Status />,
       },
     ],
