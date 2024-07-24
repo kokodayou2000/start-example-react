@@ -1,39 +1,27 @@
 import { FC, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
-import {
-  Form,
-  Space,
-  Typography,
-  message,
-  Input,
-  Checkbox,
-  Button,
-} from 'antd';
+import { Form, Space, Typography, message, Input, Button } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 import { LIST, MANAGE, REGISTER, wrapPath } from '@/router/routerConstant.ts';
 import { auth } from '@/api/user.ts';
 import { setToken } from '@/utils/user.ts';
+import { LoginUser, User } from '@/types';
 
 const { Title } = Typography;
 
-const USERNAME_KEY = 'username';
+const EMAIL_KEY = 'email';
 const PASSWORD_KEY = 'password';
 
-function rememberUser(username: string, password: string) {
-  localStorage.setItem(USERNAME_KEY, username);
+function setUserInfoToStorage(email: string, password: string) {
+  localStorage.setItem(EMAIL_KEY, email);
   localStorage.setItem(PASSWORD_KEY, password);
-}
-
-function deleteUserFromStorage() {
-  localStorage.removeItem(USERNAME_KEY);
-  localStorage.removeItem(PASSWORD_KEY);
 }
 
 function getUserInfoFromStorage() {
   return {
-    username: localStorage.getItem(USERNAME_KEY),
+    email: localStorage.getItem(EMAIL_KEY),
     password: localStorage.getItem(PASSWORD_KEY),
   } as User;
 }
@@ -41,15 +29,14 @@ const Login: FC = () => {
   const nav = useNavigate();
 
   const [form] = Form.useForm();
-
   useEffect(() => {
-    const { username, password } = getUserInfoFromStorage();
-    form.setFieldsValue({ username, password });
+    const { email, password } = getUserInfoFromStorage();
+    form.setFieldsValue({ email, password });
   }, []);
 
   const { run } = useRequest(
-    async (username: string, password: string) => {
-      const data = await auth(username, password);
+    async (email: string, password: string) => {
+      const data = await auth(email, password);
       return data;
     },
     {
@@ -64,13 +51,9 @@ const Login: FC = () => {
   );
 
   const onFinish = (values: LoginUser) => {
-    const { username, password, remember } = values || {};
-    run(username, password);
-    if (remember) {
-      rememberUser(username, password);
-    } else {
-      deleteUserFromStorage();
-    }
+    const { email, password } = values || {};
+    run(email, password);
+    setUserInfoToStorage(email, password);
   };
   return (
     <div className={styles.container}>
@@ -91,17 +74,14 @@ const Login: FC = () => {
           form={form}
         >
           <Form.Item
-            label="用户名"
-            name="username"
+            label="邮箱"
+            name="email"
             rules={[
-              { required: true, message: '请输入用户名' },
+              { required: true, message: '请输入邮箱' },
               {
-                type: 'string',
-                min: 5,
-                max: 20,
-                message: '字符长度在 5-20 之间',
+                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: '只能是邮箱地址哦',
               },
-              { pattern: /^\w+$/, message: '只能是字母数字下划线' },
             ]}
           >
             <Input />
@@ -112,13 +92,6 @@ const Login: FC = () => {
             rules={[{ required: true, message: '请输入密码' }]}
           >
             <Input.Password />
-          </Form.Item>
-          <Form.Item
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 6, span: 16 }}
-          >
-            <Checkbox>记住我</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
             <Space>

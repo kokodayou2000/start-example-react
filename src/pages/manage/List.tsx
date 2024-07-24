@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
-import QuestionCard from '@/components/QuestionCard.tsx';
+import QuestionCard from '@/components/questionCard/QuestionCard.tsx';
 import { Empty, Typography } from 'antd';
+import ListSearch from '@/components/listSearch/ListSearch.tsx';
 const { Title } = Typography;
 
 const rawQuestionList = [
   {
-    _id: 'q1',
+    id: 'q1',
     title: 'q1',
     isStar: true,
     isPublished: true,
@@ -15,7 +16,7 @@ const rawQuestionList = [
     createdAt: '',
   },
   {
-    _id: 'q2',
+    id: 'q2',
     title: 'q2',
     isStar: true,
     isPublished: true,
@@ -23,7 +24,7 @@ const rawQuestionList = [
     createdAt: '',
   },
   {
-    _id: 'q3',
+    id: 'q3',
     title: 'q3',
     isStar: true,
     isPublished: false,
@@ -36,24 +37,26 @@ const List: FC = () => {
   const [questionList] = useState(rawQuestionList);
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.left}>
+      <div className={styles.commonHeader}>
+        <div className={styles.commonHeaderLeft}>
           <Title level={3}>我的问卷</Title>
         </div>
-        <div className={styles.right}>(搜索)</div>
+        <div className={styles.commonHeaderRight}>
+          <ListSearch />
+        </div>
       </div>
-      <div className={styles.content}>
+      <div className={styles.commonContent}>
         {/* 问卷列表*/}
         {questionList.length === 0 ? (
           <Empty />
         ) : (
           questionList.map((item) => {
-            const { _id } = item;
-            return <QuestionCard key={_id} {...item} />;
+            const { id } = item;
+            return <QuestionCard key={id} {...item} />;
           })
         )}
       </div>
-      <div className={styles.footer}>list page footer</div>
+      <div className={styles.commonFooter}>list page footer</div>
     </>
   );
 };

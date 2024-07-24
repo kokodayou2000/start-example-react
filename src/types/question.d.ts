@@ -1,5 +1,5 @@
 export interface PropsType {
-  _id: string;
+  id: string;
   title: string;
   isStar: boolean;
   isPublished: boolean;

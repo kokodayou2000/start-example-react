@@ -3,13 +3,15 @@ import { Button, Typography } from 'antd';
 import { LIST, MANAGE, wrapPath } from '@/router/routerConstant.ts';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
-
+import { test } from '@/api/test.ts';
 
 const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
   const nav = useNavigate();
-
+  test().then((res) => {
+    console.log(res);
+  });
   return (
     <>
       <div className={styles.container}>

@@ -1,9 +1,14 @@
 import instance, { ResDataType } from '@/api/base.ts';
 
-export async function getQuestion(_id: string) {
-  const url = `/api/question/${_id}`;
+export async function getQuestion(id: string) {
+  const url = `/api/question/${id}`;
   const data = await instance.get(url);
   return data;
+}
+
+export async function createQuestion(data: any): Promise<ResDataType> {
+  const url = '/api/v1/createQuestion';
+  return await instance.post(url, data);
 }
 
 // 更新单个问卷

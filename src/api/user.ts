@@ -1,22 +1,27 @@
-import axios, { ResDataType } from './base.ts';
+import instance from './base.ts';
+import { CaptchaResp, LoginResp } from '@/types';
+
+// 尝试获取验证码
+export async function fetchCaptchaCode(): Promise<CaptchaResp> {
+  const url = '/api/v1/notify/captcha';
+  return await instance.get(url);
+}
 
 export async function auth(
-  username: string,
+  email: string,
   password: string,
-): Promise<ResDataType> {
-  const url = '/api/user/login';
-  const body = { username: username, password: password };
-  const data = (await axios.post(url, body)) as ResDataType;
-  return data;
+): Promise<LoginResp> {
+  const url = '/api/v1/user/login';
+  const body = { email: email, password: password };
+  return await instance.post(url, body);
 }
 
 /**
  * 获取用户信息
  */
-export async function fetchUserInfoData(): Promise<ResDataType> {
+export async function fetchUserInfoData(): Promise<never> {
   const url = '/api/user/info';
-  const data = (await axios.get(url)) as ResDataType;
-  return data;
+  return await instance.get(url);
 }
 
 /**
@@ -27,11 +32,8 @@ export async function fetchUserInfoData(): Promise<ResDataType> {
 export async function registerService(
   username: string,
   password: string,
-): Promise<ResDataType> {
+): Promise<never> {
   const url = '/api/user/register';
   const body = { username: username, password: password };
-  const data = (await axios.post(url, body)) as ResDataType;
-  return data;
+  return await instance.post(url, body);
 }
-
-

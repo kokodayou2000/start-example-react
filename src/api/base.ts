@@ -2,19 +2,19 @@ import axios from 'axios';
 import { message } from 'antd';
 import { getToken } from '@/utils/user.ts';
 
+export type ResData = {
+  code: number;
+  data: object;
+  msg: string;
+};
+export type ResDataType = {
+  [key: string]: any;
+}
+
 const instance = axios.create({
   timeout: 10 * 1000,
+  baseURL: 'http://localhost:10012',
 });
-
-export type ResType = {
-  errno: number;
-  data?: ResDataType;
-  msg?: string;
-};
-
-export type ResDataType = {
-  [key: string]: never;
-};
 
 // request 拦截：每次请求都带上 token
 instance.interceptors.request.use(
@@ -26,11 +26,11 @@ instance.interceptors.request.use(
 );
 
 // response 拦截：统一处理 errno 和 msg
-instance.interceptors.response.use((res) => {
-  const resData = (res.data || {}) as ResType;
-  const { errno, data, msg } = resData;
+instance.interceptors.response.use((response) => {
+  const res = response.data || {};
+  const { code, data, msg } = res;
 
-  if (errno !== 0) {
+  if (code !== 200) {
     // 错误提示
     if (msg) {
       message.error(msg).then((r) => message.error(r));
@@ -39,7 +39,7 @@ instance.interceptors.response.use((res) => {
     throw new Error(msg);
   }
 
-  return data as any;
+  return data;
 });
 
 export default instance;

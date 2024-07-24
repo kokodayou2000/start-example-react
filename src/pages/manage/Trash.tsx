@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
 import { Button, Empty, Space, Table, Tag, Typography, Modal } from 'antd';
-import { SelectQuestion } from '@/types';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import ListSearch from '@/components/listSearch/ListSearch.tsx';
 const { confirm } = Modal;
 const { Title } = Typography;
 
@@ -24,7 +24,7 @@ const rawQuestionList = [
     answerCount: 0,
     createdAt: '',
   },
-] as SelectQuestion[];
+];
 
 const Trash: FC = () => {
   useTitle('问卷网-回收站');
@@ -68,7 +68,9 @@ const Trash: FC = () => {
     <div>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button disabled={selectIds.length === 0}>恢复</Button>
+          <Button disabled={selectIds.length === 0}>
+            恢复
+          </Button>
           <Button color="default" onClick={del}>
             删除
           </Button>
@@ -89,20 +91,22 @@ const Trash: FC = () => {
   );
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.left}>
+      <div className={styles.commonHeader}>
+        <div className={styles.commonHeaderLeft}>
           <Title level={3}>回收站</Title>
         </div>
-        <div className={styles.right}>(搜索)</div>
+        <div className={styles.commonHeaderRight}>
+          <ListSearch />
+        </div>
       </div>
-      <div className={styles.content}>
+      <div className={styles.commonContent}>
         {questionList.length === 0 ? (
           <Empty description={<span>回收站没有数据</span>} />
         ) : (
           TableElem
         )}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.commonFooter}>分页</div>
     </>
   );
 };

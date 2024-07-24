@@ -1,20 +1,19 @@
-.header {
+.mainHeader {
   padding: 0 24px;
-
-  .left {
+  .mainHeaderLeft {
     float: left;
   }
 
-  .right {
+  .mainHeaderRight {
     float: right
   }
 }
 
-.main {
+.mainContainer {
   min-height: calc(100vh - 64px - 65px);
 }
 
-.footer {
+.mainFooter {
   text-align: center;
   background-color: #f7f7f7;
   border-top: 1px solid #e8e8e8;

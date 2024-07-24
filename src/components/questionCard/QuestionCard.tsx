@@ -13,7 +13,7 @@ import { useRequest } from 'ahooks';
 import {
   updateQuestionService,
   duplicateQuestionService,
-} from '@/api/question';
+} from '@/api/question.ts';
 import styles from './QuestionCard.module.scss';
 import type { PropsType } from '@/types';
 

@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
-import QuestionCard from '@/components/QuestionCard.tsx';
+import QuestionCard from '@/components/questionCard/QuestionCard.tsx';
 import { Empty, Typography } from 'antd';
+import ListSearch from "@/components/listSearch/ListSearch.tsx";
 const { Title } = Typography;
 const rawQuestionList = [
   {
@@ -28,13 +29,15 @@ const List: FC = () => {
   const [questionList] = useState(rawQuestionList);
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.left}>
+      <div className={styles.commonHeader}>
+        <div className={styles.commonHeaderLeft}>
           <Title level={3}>星标问卷</Title>
         </div>
-        <div className={styles.right}>(搜索)</div>
+        <div className={styles.commonHeaderRight}>
+          <ListSearch />
+        </div>
       </div>
-      <div className={styles.content}>
+      <div className={styles.commonContent}>
         {questionList.length === 0 ? (
           <Empty description={<span>还没有收藏的数据哦</span>} />
         ) : (
@@ -44,7 +47,7 @@ const List: FC = () => {
           })
         )}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.commonFooter}>分页</div>
     </>
   );
 };

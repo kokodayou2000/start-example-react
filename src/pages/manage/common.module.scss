@@ -1,19 +1,19 @@
-.header {
+.common-header {
   display: flex;
   margin-bottom: 20px;
-  .left {
+  .common-header-left {
     flex: 1;
   }
-  .right {
+  .common-header-right {
     flex: 1;
     text-align: right;
   }
 }
 
-.content {
+.common-content {
   margin-bottom: 20px;
 }
 
-.footer {
+.common-footer {
   text-align: center;
 }

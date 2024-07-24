@@ -2,26 +2,26 @@ import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 import styles from './MainLayout.module.scss';
-import Logo from '@/components/Logo.tsx';
-import UserInfo from '@/components/UserInfo.tsx';
+import Logo from '@/components/logo/Logo.tsx';
+import UserInfo from '@/components/user/UserInfo.tsx';
 
 const { Header, Content, Footer } = Layout;
 
 const MainLayout: FC = () => {
   return (
     <>
-      <Header className={styles.header}>
-        <div className={styles.left}>
+      <Header className={styles.mainHeader}>
+        <div className={styles.mainHeaderLeft}>
           <Logo />
         </div>
-        <div className={styles.right}>
+        <div className={styles.mainHeaderRight}>
           <UserInfo />
         </div>
       </Header>
-      <Content className={styles.main}>
+      <Content className={styles.mainContainer}>
         <Outlet />
       </Content>
-      <Footer className={styles.footer}>主布局 底部</Footer>
+      <Footer className={styles.mainFooter}>主布局 底部</Footer>
     </>
   );
 };

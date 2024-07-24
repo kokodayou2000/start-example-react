@@ -14,7 +14,7 @@ export const TRASH = 'trash';
 
 export const DASH = '*';
 
-export const QUESTION = 'question';
+export const QUESTION = 'questionCard';
 
 export const EDIT = 'edit';
 
