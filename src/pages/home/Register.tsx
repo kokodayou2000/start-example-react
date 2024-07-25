@@ -45,7 +45,7 @@ const Register: FC = () => {
     },
   );
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: never) => {
     registerReq.run(values); // 调用 ajax
   };
 
