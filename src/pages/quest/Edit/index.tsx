@@ -1,14 +1,10 @@
 import { FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import useLoadQuestionData from '@/hooks/useLoadQuestionData.ts';
 
 const Edit: FC = () => {
-  const [searchParams] = useSearchParams();
-
+  const { loading, questions } = useLoadQuestionData();
   return (
-    <>
-      <div>编辑</div>
-      {searchParams}
-    </>
+    <div>{loading ? <p>loading</p> : <p>{JSON.stringify(questions)}</p>}</div>
   );
 };
 

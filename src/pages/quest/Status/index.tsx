@@ -1,10 +1,12 @@
 import { FC } from 'react';
+import useLoadQuestionData from '@/hooks/useLoadQuestionData.ts';
 
 const Status: FC = () => {
+  const { loading, questions } = useLoadQuestionData();
   return (
-    <>
-      <div>查看状态</div>
-    </>
+    <div>
+      {loading ? <p>status loading</p> : <p>{JSON.stringify(questions)}</p>}
+    </div>
   );
 };
 
