@@ -4,9 +4,9 @@ import { UserAddOutlined } from '@ant-design/icons';
 import styles from './Register.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
-import { fetchCaptchaCode, registerService } from '@/api/user.ts';
-import { LOGIN } from '@/router/routerConstant.ts';
-import { CaptchaResp } from '@/types';
+import { fetchCaptchaCode, registerService, sendEmailAPI } from '@/api/user.ts';
+import { LIST, LOGIN, QUESTION, wrapPath } from '@/router/routerConstant.ts';
+import { CaptchaResp, RegisterReq, SendEmailReq } from '@/types';
 
 const { Title } = Typography;
 
@@ -21,20 +21,34 @@ const Register: FC = () => {
     image: '',
     uuidKey: '',
   });
+  const [requestData, setRequestData] = useState<RegisterReq>();
   // 页面加载的时候，执行，但是会执行两次
   useEffect(() => {
     const fetchCaptchaCodeFunc = async () => {
       const data = await fetchCaptchaCode();
       setCaptchaData(data);
-      console.log(data);
     };
     fetchCaptchaCodeFunc();
   }, []);
 
   const registerReq = useRequest(
     async (values) => {
-      const { username, password } = values;
-      await registerService(username, password);
+      const { code, password, confirm } = values;
+      if (password !== confirm) {
+        return Promise.reject();
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      setRequestData((prevState: RegisterReq) => ({
+        ...prevState,
+        password: password,
+        code: code,
+      }));
+      if (requestData) {
+        await registerService(requestData).then(() => {
+          nav(wrapPath(QUESTION, LIST));
+        });
+      }
     },
     {
       manual: true,
@@ -44,14 +58,22 @@ const Register: FC = () => {
       },
     },
   );
-
-  const onFinish = (values: never) => {
+  const onFinish = (values: RegisterReq) => {
     registerReq.run(values); // 调用 ajax
   };
 
-  const sendEmail = () => {
-    setStepStatus(false);
+  const sendEmail = (value: RegisterReq) => {
+    setRequestData(value);
+    sendEmailAPI({
+      target: value.email,
+      uuidKey: captchaData.uuidKey,
+      captcha: value.captcha,
+    } as SendEmailReq).then((res) => {
+      console.log(res);
+      setStepStatus(false);
+    });
   };
+
   const [stepStatus, setStepStatus] = useState(true);
   const Step1 = () => {
     return (
@@ -75,7 +97,7 @@ const Register: FC = () => {
         </Form.Item>
         <Form.Item
           label="验证码"
-          name="code"
+          name="captcha"
           rules={[
             { required: true, message: '请输入验证码' },
             {

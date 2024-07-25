@@ -1,7 +1,7 @@
 import instance, { ResDataType } from '@/api/base.ts';
 
-export async function getQuestion(id: string) {
-  const url = `/api/question/${id}`;
+export async function fetchQuestion(id: string) {
+  const url = `/api/v1/question/queryById/${id}`;
   const data = await instance.get(url);
   return data;
 }

@@ -1,3 +1,4 @@
+// 提醒功能
 export interface CaptchaResp {
   uuidKey: string;
   image: string;
@@ -6,5 +7,5 @@ export interface CaptchaResp {
 export interface SendEmailReq {
   target: string;
   uuidKey: string;
-  code: string;
+  captcha: string;
 }
