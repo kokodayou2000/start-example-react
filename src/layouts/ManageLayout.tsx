@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './ManageLayout.module.scss';
 import {
@@ -10,23 +10,19 @@ import {
 import { Button, Divider, message, Space } from 'antd';
 import { createQuestion } from '@/api/question.ts';
 import { EDIT, QUESTION, wrapPath } from '@/router/routerConstant.ts';
+import { useRequest } from 'ahooks';
+import { QuestionProps } from '@/types';
 
 const ManageLayout: FC = () => {
   const nav = useNavigate();
   const { pathname } = useLocation();
-  const [loading, setLoading] = useState(false);
-  function handlerCreateClick() {
-    createQuestion('').then((res) => {
-      setLoading(true);
-      const { id } = res || {};
-      if (id) {
-        // 跳转
-        nav(wrapPath(QUESTION, EDIT, id));
-        message.success('创建成功');
-        setLoading(false);
-      }
-    });
-  }
+  const { loading, run: doCreateAPI } = useRequest(createQuestion, {
+    manual: true,
+    onSuccess(result: QuestionProps) {
+      nav(wrapPath(QUESTION, EDIT, result.id));
+      message.success('创建成功');
+    },
+  });
   return (
     <div className={styles.manageContainer}>
       <div className={styles.manageLeft}>
@@ -34,7 +30,7 @@ const ManageLayout: FC = () => {
           <Button
             size="large"
             icon={<PlusOutlined />}
-            onClick={handlerCreateClick}
+            onClick={doCreateAPI}
             disabled={loading}
           >
             新建问卷

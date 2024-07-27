@@ -7,7 +7,7 @@ export async function fetchCaptchaCode(): Promise<CaptchaResp> {
   return await instance.get(url);
 }
 
-export async function sendEmailAPI(params: SendEmailReq): Promise<any> {
+export async function sendEmailAPI(params: SendEmailReq): Promise<never> {
   const url = '/api/v1/notify/sendCode';
   return await instance.post(url, params);
 }

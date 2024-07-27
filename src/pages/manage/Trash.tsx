@@ -68,9 +68,7 @@ const Trash: FC = () => {
     <div>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button disabled={selectIds.length === 0}>
-            恢复
-          </Button>
+          <Button disabled={selectIds.length === 0}>恢复</Button>
           <Button color="default" onClick={del}>
             删除
           </Button>

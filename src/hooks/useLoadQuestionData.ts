@@ -13,7 +13,7 @@ function useLoadQuestionData() {
       setLoading(false);
     }
     fn();
-  }, []);
+  }, [id]);
   return { loading, questions };
 }
 

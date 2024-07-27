@@ -1,4 +1,5 @@
 import instance, { ResDataType } from '@/api/base.ts';
+import { QuestionProps, SearchOption } from '@/types';
 
 export async function fetchQuestion(id: string) {
   const url = `/api/v1/question/queryById/${id}`;
@@ -6,11 +7,16 @@ export async function fetchQuestion(id: string) {
   return data;
 }
 
-export async function createQuestion(data: any): Promise<ResDataType> {
-  const url = '/api/v1/createQuestion';
-  return await instance.post(url, data);
+export async function createQuestion(): Promise<QuestionProps> {
+  const url = '/api/v1/question/createNewQuestion';
+  return await instance.post(url);
 }
-
+export async function fetchQuestionList(
+  options: Partial<SearchOption> = {},
+): Promise<QuestionProps> {
+  const url = '/api/v1/question/list';
+  return await instance.get(url, { params: options });
+}
 // 更新单个问卷
 export async function updateQuestionService(
   id: string,

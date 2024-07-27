@@ -72,7 +72,7 @@ const router = createBrowserRouter([
     element: <QuestionLayout />,
     children: [
       {
-        path: EDIT,
+        path: EDIT + '/:id',
         element: <Edit />,
       },
       {

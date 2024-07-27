@@ -1,4 +1,4 @@
-export interface PropsType {
+export interface QuestionProps {
   id: string;
   title: string;
   isStar: boolean;

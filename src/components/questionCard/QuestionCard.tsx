@@ -16,18 +16,19 @@ import {
 } from '@/api/question.ts';
 import styles from './QuestionCard.module.scss';
 import type { PropsType } from '@/types';
+import { EDIT, QUESTION, STATUS, wrapPath } from '@/router/routerConstant.ts';
 
 const { confirm } = Modal;
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
-  const { _id, title, createdAt, answerCount, isPublished, isStar } = props;
+  const { id, title, createdAt, answerCount, isPublished, isStar } = props;
 
   // 修改 标星
   const [isStarState, setIsStarState] = useState(isStar);
   const { loading: changeStarLoading, run: changeStar } = useRequest(
     async () => {
-      await updateQuestionService(_id, { isStar: !isStarState });
+      await updateQuestionService(id, { isStar: !isStarState });
     },
     {
       manual: true,
@@ -41,15 +42,16 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   // 复制
   const { loading: duplicateLoading, run: duplicate } = useRequest(
     // async () => {
-    //   const data = await duplicateQuestionService(_id)
+    //   const data = await duplicateQuestionService(id)
     //   return data
     // },
-    async () => await duplicateQuestionService(_id),
+    async () => await duplicateQuestionService(id),
     {
       manual: true,
       onSuccess(result) {
         message.success('复制成功');
-        nav(`/question/edit/${result.id}`); // 跳转到问卷编辑页
+        // `/question/edit/${result.id}`
+        nav(wrapPath(QUESTION, EDIT, result.id)); // 跳转到问卷编辑页
       },
     },
   );
@@ -57,7 +59,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   // 删除
   const [isDeletedState, setIsDeletedState] = useState(false);
   const { loading: deleteLoading, run: deleteQuestion } = useRequest(
-    async () => await updateQuestionService(_id, { isDeleted: true }),
+    async () => await updateQuestionService(id, { isDeleted: true }),
     {
       manual: true,
       onSuccess() {
@@ -83,7 +85,11 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       <div className={styles.title}>
         <div className={styles.left}>
           <Link
-            to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}
+            to={
+              isPublished
+                ? `${wrapPath(QUESTION, STATUS, id)}`
+                : `${wrapPath(QUESTION, EDIT, id)}`
+            }
           >
             <Space>
               {isStarState && <StarOutlined style={{ color: 'red' }} />}
@@ -111,7 +117,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               icon={<EditOutlined />}
               type="text"
               size="small"
-              onClick={() => nav(`/question/edit/${_id}`)}
+              onClick={() => nav(`${wrapPath(QUESTION, EDIT, id)}`)}
             >
               编辑问卷
             </Button>
@@ -119,7 +125,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               icon={<LineChartOutlined />}
               type="text"
               size="small"
-              onClick={() => nav(`/question/stat/${_id}`)}
+              onClick={() => nav(`${wrapPath(QUESTION, STATUS, id)}`)}
               disabled={!isPublished}
             >
               问卷统计

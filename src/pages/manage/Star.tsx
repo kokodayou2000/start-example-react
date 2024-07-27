@@ -1,9 +1,9 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
 import QuestionCard from '@/components/questionCard/QuestionCard.tsx';
 import { Empty, Typography } from 'antd';
-import ListSearch from "@/components/listSearch/ListSearch.tsx";
+import ListSearch from '@/components/listSearch/ListSearch.tsx';
 const { Title } = Typography;
 const rawQuestionList = [
   {
