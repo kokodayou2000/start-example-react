@@ -1,32 +1,54 @@
 import instance from './base.ts';
 import { CaptchaResp, LoginResp, RegisterReq, SendEmailReq } from '@/types';
 
-// 尝试获取验证码
+const wrapUserPath = (path: string) => {
+  return `/api/v1/notify/${path}`;
+};
+
+/**
+ * 尝试获取验证码
+ */
 export async function fetchCaptchaCode(): Promise<CaptchaResp> {
-  const url = '/api/v1/notify/captcha';
+  const url = wrapUserPath('captcha');
   return await instance.get(url);
 }
 
-export async function sendEmailAPI(params: SendEmailReq): Promise<never> {
-  const url = '/api/v1/notify/sendCode';
+/**
+ * 尝试获取验证码
+ * @param params
+ */
+export async function sendEmailApi(params: SendEmailReq): Promise<string> {
+  const url = wrapUserPath('sendCode');
   return await instance.post(url, params);
 }
 
+/**
+ * 登录
+ * @param email 邮箱
+ * @param password 密码
+ */
 export async function auth(
   email: string,
   password: string,
 ): Promise<LoginResp> {
-  const url = '/api/v1/user/login';
+  const url = wrapUserPath('login');
   const body = { email: email, password: password };
   return await instance.post(url, body);
 }
 
-export async function registerService(data: RegisterReq): Promise<never> {
-  const url = '/api/v1/user/register';
+/**
+ * 注册
+ * @param data
+ */
+export async function registerApi(data: RegisterReq): Promise<never> {
+  const url = wrapUserPath('register');
   return await instance.post(url, data);
 }
 
+/**
+ * 获取用户信息
+ */
 export async function fetchUserInfoData(): Promise<never> {
-  const url = '/api/user/info';
+  const url = wrapUserPath('info');
   return await instance.get(url);
 }

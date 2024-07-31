@@ -2,15 +2,6 @@ import axios from 'axios';
 import { message } from 'antd';
 import { getToken } from '@/utils/user.ts';
 
-export type ResData = {
-  code: number;
-  data: object;
-  msg: string;
-};
-export type ResDataType = {
-  [key: string]: any;
-}
-
 const instance = axios.create({
   timeout: 10 * 1000,
   baseURL: 'http://localhost:10012',
