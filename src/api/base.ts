@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { message } from 'antd';
-import { getToken } from '@/utils/user.ts';
 
 const instance = axios.create({
   timeout: 10 * 1000,
@@ -10,7 +9,9 @@ const instance = axios.create({
 // request 拦截：每次请求都带上 token
 instance.interceptors.request.use(
   (config) => {
-    config.headers['token'] = `${getToken()}`; // JWT 的固定格式
+    config.headers['token'] = window.localStorage.getItem('token')
+      ? window.localStorage.getItem('token')
+      : '';
     return config;
   },
   (error) => Promise.reject(error),

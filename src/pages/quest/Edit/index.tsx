@@ -1,10 +1,22 @@
 import { FC } from 'react';
-import useLoadQuestionData from '@/hooks/useLoadQuestionData.ts';
-
+import styles from './Edit.module.scss';
+import EditCanvas from '@/pages/quest/Edit/EditCanvas.tsx';
 const Edit: FC = () => {
-  const { loading, questions } = useLoadQuestionData();
   return (
-    <div>{loading ? <p>loading</p> : <p>{JSON.stringify(questions)}</p>}</div>
+    <div className={styles['container']}>
+      <div className={styles['header']}>header</div>
+      <div className={styles['container-wrapper']}>
+        <div className={styles['content']}>
+          <div className={styles['left']}>Left</div>
+          <div className={styles['main']}>
+            <div className={styles['canvas-wrapper']}>
+              <EditCanvas />
+            </div>
+          </div>
+          <div className={styles['right']}>Right</div>
+        </div>
+      </div>
+    </div>
   );
 };
 

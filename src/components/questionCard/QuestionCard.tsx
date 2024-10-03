@@ -10,25 +10,26 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import {
-  updateQuestionService,
-  duplicateQuestionService,
-} from '@/api/question.ts';
 import styles from './QuestionCard.module.scss';
-import type { PropsType } from '@/types';
 import { EDIT, QUESTION, STATUS, wrapPath } from '@/router/routerConstant.ts';
+import { duplicateQuestionApi, updateQuestionInfoApi } from '@/api/question.ts';
+import { QuestionProps, UpdateQuestionInfo } from '@/types';
 
 const { confirm } = Modal;
 
-const QuestionCard: FC<PropsType> = (props: PropsType) => {
+const QuestionCard: FC<QuestionProps> = (props: QuestionProps) => {
   const nav = useNavigate();
-  const { id, title, createdAt, answerCount, isPublished, isStar } = props;
+  const { id, title, createdAt, answerCount, published, star } = props;
 
   // 修改 标星
-  const [isStarState, setIsStarState] = useState(isStar);
+  const [isStarState, setIsStarState] = useState(star);
   const { loading: changeStarLoading, run: changeStar } = useRequest(
     async () => {
-      await updateQuestionService(id, { isStar: !isStarState });
+      await updateQuestionInfoApi({
+        id: id,
+        status: true,
+        type: 'star',
+      } as UpdateQuestionInfo);
     },
     {
       manual: true,
@@ -45,7 +46,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     //   const data = await duplicateQuestionService(id)
     //   return data
     // },
-    async () => await duplicateQuestionService(id),
+    async () => await duplicateQuestionApi(id),
     {
       manual: true,
       onSuccess(result) {
@@ -59,7 +60,12 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   // 删除
   const [isDeletedState, setIsDeletedState] = useState(false);
   const { loading: deleteLoading, run: deleteQuestion } = useRequest(
-    async () => await updateQuestionService(id, { isDeleted: true }),
+    async () =>
+      await updateQuestionInfoApi({
+        id: id,
+        type: 'deleted',
+        status: true,
+      } as UpdateQuestionInfo),
     {
       manual: true,
       onSuccess() {
@@ -86,7 +92,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         <div className={styles.left}>
           <Link
             to={
-              isPublished
+              published
                 ? `${wrapPath(QUESTION, STATUS, id)}`
                 : `${wrapPath(QUESTION, EDIT, id)}`
             }
@@ -99,7 +105,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         </div>
         <div className={styles.right}>
           <Space>
-            {isPublished ? (
+            {published ? (
               <Tag color="processing">已发布</Tag>
             ) : (
               <Tag>未发布</Tag>
@@ -126,7 +132,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               type="text"
               size="small"
               onClick={() => nav(`${wrapPath(QUESTION, STATUS, id)}`)}
-              disabled={!isPublished}
+              disabled={!published}
             >
               问卷统计
             </Button>

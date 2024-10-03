@@ -1,9 +1,10 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
 import QuestionCard from '@/components/questionCard/QuestionCard.tsx';
 import { Empty, Typography } from 'antd';
 import ListSearch from '@/components/listSearch/ListSearch.tsx';
+import {QuestionProps} from "@/types";
 const { Title } = Typography;
 const rawQuestionList = [
   {
@@ -43,7 +44,9 @@ const List: FC = () => {
         ) : (
           questionList.map((item) => {
             const { _id } = item;
-            return <QuestionCard key={_id} {...item} />;
+            const props = { ...item } as unknown as QuestionProps;
+            props.id = _id;
+            return <QuestionCard key={_id} {...props} />;
           })
         )}
       </div>

@@ -1,59 +1,32 @@
 import { FC, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './Login.module.scss';
-import { Form, Space, Typography, message, Input, Button } from 'antd';
+import { Form, Space, Typography, Input, Button } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-import { useRequest } from 'ahooks';
-import { LIST, MANAGE, REGISTER, wrapPath } from '@/router/routerConstant.ts';
-import { auth } from '@/api/user.ts';
-import { setToken } from '@/utils/user.ts';
-import { LoginUser, User } from '@/types';
+import { useLocalStorageState } from 'ahooks';
+import { REGISTER, wrapPath } from '@/router/routerConstant.ts';
+import { LoginUser } from '@/types';
+import { useAuth } from '@/use/useAuth.ts';
+import { LOGIN_INFO } from '@/constant/user.ts';
 
 const { Title } = Typography;
 
-const EMAIL_KEY = 'email';
-const PASSWORD_KEY = 'password';
-
-function setUserInfoToStorage(email: string, password: string) {
-  localStorage.setItem(EMAIL_KEY, email);
-  localStorage.setItem(PASSWORD_KEY, password);
-}
-
-function getUserInfoFromStorage() {
-  return {
-    email: localStorage.getItem(EMAIL_KEY),
-    password: localStorage.getItem(PASSWORD_KEY),
-  } as User;
-}
 const Login: FC = () => {
-  const nav = useNavigate();
-
   const [form] = Form.useForm();
+  const [user, setUser] = useLocalStorageState(LOGIN_INFO, {
+    defaultValue: { email: '', password: '' } as LoginUser,
+  });
   useEffect(() => {
-    const { email, password } = getUserInfoFromStorage();
+    const { email, password } =
+      user || ({ email: '', password: '' } as LoginUser);
     form.setFieldsValue({ email, password });
   }, []);
-
-  const { run } = useRequest(
-    async (email: string, password: string) => {
-      const data = await auth(email, password);
-      return data;
-    },
-    {
-      manual: true,
-      onSuccess(result) {
-        const { token = '' } = result;
-        setToken(token);
-        message.success('登录成功');
-        nav(wrapPath(MANAGE, LIST));
-      },
-    },
-  );
-
+  const { useLogin } = useAuth();
+  const { run } = useLogin();
   const onFinish = (values: LoginUser) => {
     const { email, password } = values || {};
     run(email, password);
-    setUserInfoToStorage(email, password);
+    setUser({ email, password });
   };
   return (
     <div className={styles.container}>

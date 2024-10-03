@@ -1,12 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, Form, Input, message, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 import styles from './Register.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { useRequest } from 'ahooks';
-import { fetchCaptchaCode, registerService, sendEmailAPI } from '@/api/user.ts';
-import { LIST, LOGIN, QUESTION, wrapPath } from '@/router/routerConstant.ts';
+import { fetchCaptchaCode, sendEmailApi } from '@/api/notify.ts';
 import { CaptchaResp, RegisterReq, SendEmailReq } from '@/types';
+import { useAuth } from '@/use/useAuth.ts';
 
 const { Title } = Typography;
 
@@ -15,13 +13,16 @@ const { Title } = Typography;
  * @constructor
  */
 const Register: FC = () => {
-  const nav = useNavigate();
-
   const [captchaData, setCaptchaData] = useState<CaptchaResp>({
     image: '',
     uuidKey: '',
   });
-  const [requestData, setRequestData] = useState<RegisterReq>();
+  const [requestData, setRequestData] = useState<RegisterReq>({
+    email: '',
+    password: '',
+    code: '',
+    captcha: '',
+  });
   // 页面加载的时候，执行，但是会执行两次
   useEffect(() => {
     const fetchCaptchaCodeFunc = async () => {
@@ -31,40 +32,21 @@ const Register: FC = () => {
     fetchCaptchaCodeFunc();
   }, []);
 
-  const registerReq = useRequest(
-    async (values) => {
-      const { code, password, confirm } = values;
-      if (password !== confirm) {
-        return Promise.reject();
-      }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      setRequestData((prevState: RegisterReq) => ({
-        ...prevState,
-        password: password,
-        code: code,
-      }));
-      if (requestData) {
-        await registerService(requestData).then(() => {
-          nav(wrapPath(QUESTION, LIST));
-        });
-      }
-    },
-    {
-      manual: true,
-      onSuccess() {
-        message.success('注册成功');
-        nav(LOGIN); // 跳转到登录页
-      },
-    },
-  );
+  const { useRegister } = useAuth();
+  const req = useRegister();
   const onFinish = (values: RegisterReq) => {
-    registerReq.run(values); // 调用 ajax
+    setRequestData({
+      email: requestData.email,
+      captcha: requestData.captcha,
+      password: values.password,
+      code: values.code,
+    });
+    req.run(requestData);
   };
 
   const sendEmail = (value: RegisterReq) => {
     setRequestData(value);
-    sendEmailAPI({
+    sendEmailApi({
       target: value.email,
       uuidKey: captchaData.uuidKey,
       captcha: value.captcha,

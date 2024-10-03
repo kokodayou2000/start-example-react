@@ -1,13 +1,13 @@
 export interface BaseUser {
   id: string;
-  email: string;
+  nickname: string;
 }
-
-export interface User {
+// 如果用户点击了记住密码
+export interface LoginUser {
   email: string;
   password: string;
 }
-export interface RegisterReq extends User {
+export interface RegisterReq extends LoginUser {
   code: string;
   captcha: string;
 }
@@ -17,13 +17,6 @@ export interface LoginResp {
   token: string;
 }
 
-// 用户登录的时候新增一个remember
-export interface LoginUser extends User {}
-// 用户状态类型
-export interface UserStateType {
-  username: string;
-  nickname: string;
-}
 // 状态类型
 export interface StateType {
   user: UserStateType;
