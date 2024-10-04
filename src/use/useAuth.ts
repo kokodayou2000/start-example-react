@@ -5,7 +5,7 @@ import { StoreType } from '@/store';
 import { auth, registerApi } from '@/api/user.ts';
 import { message } from 'antd';
 import { LIST, LOGIN, MANAGE, wrapPath } from '@/router/routerConstant.ts';
-import { login, logout } from '@/store/useUserSlice.ts';
+import { login, logout } from '@/store/userReducer/useUserSlice.ts';
 import { useNavigate } from 'react-router-dom';
 import { USER_INFO } from '@/constant/user.ts';
 
