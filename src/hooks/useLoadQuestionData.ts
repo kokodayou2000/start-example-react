@@ -24,16 +24,19 @@ function useLoadQuestionData() {
     }
     const { components = [] } = data;
     const componentList = components.map((item) => {
-      const tempComponent = {
+      return {
         fe_id: item.id,
         type: item.type,
         title: item.title,
         props: JSON.parse(item.props),
       } as ComponentInfoType;
-      return tempComponent;
     });
+    let selectedId: string = '';
+    if (componentList.length > 0) {
+      selectedId = componentList[0].fe_id;
+    }
     // 将 component 存储到 reducer 中
-    dispatch(resetComponents({ componentList }));
+    dispatch(resetComponents({ componentList, selectedId: selectedId }));
   }, [data]);
 
   useEffect(() => {

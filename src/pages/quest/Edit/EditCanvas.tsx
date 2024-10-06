@@ -1,14 +1,51 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import styles from './EditCanvas.module.scss';
 
-import QuestionTitle from '@/components/QuestionComponents/QuestionTitle/Component.tsx';
-import QuestionInput from '@/components/QuestionComponents/QuestionInput/Component.tsx';
 import { Spin } from 'antd';
+import useGetComponentInfo from '@/hooks/useGetComponentInfo.ts';
+import { getComponentConfByType } from '@/components/QuestionComponents';
+import { changeSelectedId, ComponentInfoType } from '@/store/componentsReducer';
+import { useDispatch } from 'react-redux';
+import classNames from 'classnames';
 
 type PropsType = {
   loading: boolean;
 };
+function genComponent(componentInfo: ComponentInfoType) {
+  const { type, props } = componentInfo;
+  const componentConf = getComponentConfByType(type);
+  if (!componentConf) {
+    return <div />;
+  }
+  const { Component } = componentConf;
+  return <Component {...props} />;
+}
 const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
+  const { componentList, selectedId } = useGetComponentInfo();
+  const dispatch = useDispatch();
+  function handleClick(event: MouseEvent, id: string) {
+    event.stopPropagation();
+    dispatch(changeSelectedId(id));
+  }
+  const list = componentList.map((item) => {
+    const { fe_id } = item;
+    // 拼接 classname
+    const wrapperDefaultClassname = styles['component-wrapper'];
+    const selectedClassName = styles.selected;
+    const wrapperClassName = classNames({
+      [wrapperDefaultClassname]: true,
+      [selectedClassName]: fe_id === selectedId,
+    });
+    return (
+      <div
+        key={fe_id}
+        className={wrapperClassName}
+        onClick={(event) => handleClick(event, fe_id)}
+      >
+        <div className={styles['component']}>{genComponent(item)}</div>
+      </div>
+    );
+  });
   if (loading) {
     return (
       <div>
@@ -16,20 +53,7 @@ const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
       </div>
     );
   } else {
-    return (
-      <div className={styles['canvas']}>
-        <div className={styles['component-wrapper']}>
-          <div className={styles['component']}>
-            <QuestionInput title={'自定义标题'} placeholder={'请输入数据'} />
-          </div>
-        </div>
-        <div className={styles['component-wrapper']}>
-          <div className={styles['component']}>
-            <QuestionTitle text={'自定义标题 '} level={1} center={true} />
-          </div>
-        </div>
-      </div>
-    );
+    return <div className={styles['canvas']}>{list}</div>;
   }
 };
 

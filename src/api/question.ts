@@ -1,6 +1,11 @@
 import instance from '@/api/base.ts';
-import {QueryPage, QuestionProps, QuestionPropsRaw, UpdateQuestionInfo} from '@/types';
-import {Page} from "@/types/page";
+import {
+  QueryPage,
+  QuestionProps,
+  QuestionPropsRaw,
+  UpdateQuestionInfo,
+} from '@/types';
+import { Page } from '@/types/page';
 
 const wrapQuestionPath = (path) => {
   return `/api/v1/question/${path}`;

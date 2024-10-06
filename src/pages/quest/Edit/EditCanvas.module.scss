@@ -16,3 +16,7 @@
 .component {
   pointer-events: none; // 屏蔽鼠标行为，组件不让点击到
 }
+
+.selected {
+  border-color: #007bff !important;
+}

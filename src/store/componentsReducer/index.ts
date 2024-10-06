@@ -1,5 +1,6 @@
 import { ComponentPropType } from '@/components/QuestionComponents';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { produce } from 'immer';
 
 export type ComponentInfoRaw = {
   id: string;
@@ -16,9 +17,11 @@ export type ComponentInfoType = {
 };
 // 一种列表的形式
 export type ComponentsStateType = {
+  selectedId: string;
   componentList: Array<ComponentInfoType>;
 };
 const INIT_STATE: ComponentsStateType = {
+  selectedId: '',
   componentList: [],
 };
 export const componentsSlice = createSlice({
@@ -32,8 +35,14 @@ export const componentsSlice = createSlice({
     ) => {
       return action.payload;
     },
+    changeSelectedId: produce(
+      (draft: ComponentsStateType, action: PayloadAction<string>) => {
+        draft.selectedId = action.payload;
+        // 使用 immer 能优化 react state 不可变数据的写法
+      },
+    ),
   },
 });
 
-export const { resetComponents } = componentsSlice.actions;
+export const { resetComponents, changeSelectedId } = componentsSlice.actions;
 export default componentsSlice.reducer;

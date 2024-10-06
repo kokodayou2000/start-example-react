@@ -4,7 +4,7 @@ import styles from './common.module.scss';
 import QuestionCard from '@/components/questionCard/QuestionCard.tsx';
 import { Empty, Typography } from 'antd';
 import ListSearch from '@/components/listSearch/ListSearch.tsx';
-import {QuestionProps} from "@/types";
+import { QuestionProps } from '@/types';
 const { Title } = Typography;
 const rawQuestionList = [
   {
