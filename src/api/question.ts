@@ -1,5 +1,6 @@
 import instance from '@/api/base.ts';
-import { QueryPage, QuestionProps, UpdateQuestionInfo } from '@/types';
+import {QueryPage, QuestionProps, QuestionPropsRaw, UpdateQuestionInfo} from '@/types';
+import {Page} from "@/types/page";
 
 const wrapQuestionPath = (path) => {
   return `/api/v1/question/${path}`;
@@ -9,7 +10,7 @@ const wrapQuestionPath = (path) => {
  * 根据id获取question
  * @param id 问题id
  */
-export async function fetchQuestion(id: string): Promise<QuestionProps> {
+export async function fetchQuestion(id: string): Promise<QuestionPropsRaw> {
   const url = wrapQuestionPath('queryById/' + id);
   return await instance.get(url);
 }
@@ -28,7 +29,7 @@ export async function createQuestion(): Promise<QuestionProps> {
  */
 export async function fetchQuestionList(
   options: Partial<QueryPage> = {},
-): Promise<QuestionProps[]> {
+): Promise<Page<QuestionProps[]>> {
   const url = wrapQuestionPath('list');
   return await instance.get(url, { params: options });
 }

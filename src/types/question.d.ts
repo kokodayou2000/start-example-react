@@ -1,4 +1,17 @@
 // question 只有 id是一定要有的
+import { ComponentInfoRaw, ComponentInfoType } from '@/store/componentsReducer';
+
+export interface QuestionPropsRaw {
+  id: string;
+  title?: string;
+  answerCount?: number;
+  createdBy?: string;
+  createdAt?: string;
+  published?: boolean;
+  star?: boolean;
+  components?: ComponentInfoRaw[];
+}
+
 export interface QuestionProps {
   id: string;
   title?: string;
@@ -7,6 +20,7 @@ export interface QuestionProps {
   createdAt?: string;
   published?: boolean;
   star?: boolean;
+  components?: ComponentInfoType[];
 }
 
 // 分页

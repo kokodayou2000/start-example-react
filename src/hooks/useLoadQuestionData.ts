@@ -1,20 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchQuestion } from '@/api/question.ts';
+import { useRequest } from 'ahooks';
+import { useDispatch } from 'react-redux';
+import { ComponentInfoType, resetComponents } from '@/store/componentsReducer';
 
 function useLoadQuestionData() {
   const { id = '' } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [questions, setQuestions] = useState({});
+  const dispatch = useDispatch();
+
+  const { data, loading, error, run } = useRequest(
+    async function fn(q_id) {
+      const data = await fetchQuestion(q_id);
+      return data;
+    },
+    {
+      manual: true,
+    },
+  );
   useEffect(() => {
-    async function fn() {
-      const data = await fetchQuestion(id);
-      setQuestions(data);
-      setLoading(false);
+    if (!data) {
+      return;
     }
-    fn();
+    const { components = [] } = data;
+    const componentList = components.map((item) => {
+      const tempComponent = {
+        fe_id: item.id,
+        type: item.type,
+        title: item.title,
+        props: JSON.parse(item.props),
+      } as ComponentInfoType;
+      return tempComponent;
+    });
+    // 将 component 存储到 reducer 中
+    dispatch(resetComponents({ componentList }));
+  }, [data]);
+
+  useEffect(() => {
+    run(id);
   }, [id]);
-  return { loading, questions };
+
+  return { loading, error };
 }
 
 export default useLoadQuestionData;
