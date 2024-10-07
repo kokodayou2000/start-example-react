@@ -41,8 +41,23 @@ export const componentsSlice = createSlice({
         // 使用 immer 能优化 react state 不可变数据的写法
       },
     ),
+    addComponent: produce(
+        (draft: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
+          const newComp = action.payload
+          // 放置的位置 ...
+          const {selectedId,componentList} = draft;
+          const index = componentList.findIndex((item) => item.fe_id === selectedId);
+          if (index < 0){
+            draft.componentList.push(newComp);
+          }else{
+            // 插入到 index 后面
+            draft.componentList.splice(index+1,0,newComp);
+          }
+          draft.selectedId = newComp.fe_id;
+        },
+    ),
   },
 });
 
-export const { resetComponents, changeSelectedId } = componentsSlice.actions;
+export const { resetComponents, changeSelectedId,addComponent } = componentsSlice.actions;
 export default componentsSlice.reducer;
