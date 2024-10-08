@@ -4,6 +4,7 @@ export type QuestionTitlePropsType = {
   text?: string;
   level?: TitleLevel;
   center?: boolean;
+  onChange?: (newProps: QuestionTitlePropsType) => void;
 };
 
 export const QuestionTitleDefaultProps: QuestionTitlePropsType = {

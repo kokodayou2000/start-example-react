@@ -1,8 +1,7 @@
 import { FC } from 'react';
-import { FileTextOutlined, SettingOutlined} from '@ant-design/icons';
+import { FileTextOutlined, SettingOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
-import ComponentProp from "@/pages/quest/Edit/ComponentProp.tsx";
-
+import ComponentProp from '@/pages/quest/Edit/ComponentProp.tsx';
 
 const RightPanel: FC = () => {
   const tabsItems = [
