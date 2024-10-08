@@ -10,7 +10,7 @@ export type ComponentInfoRaw = {
 };
 
 export type ComponentInfoType = {
-  fe_id: string;
+  fe_id: string; // 前端生成的，避免和后端 mongodb生成的重复
   type: string;
   title: string;
   props: ComponentPropType;
@@ -42,22 +42,28 @@ export const componentsSlice = createSlice({
       },
     ),
     addComponent: produce(
-        (draft: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
-          const newComp = action.payload
-          // 放置的位置 ...
-          const {selectedId,componentList} = draft;
-          const index = componentList.findIndex((item) => item.fe_id === selectedId);
-          if (index < 0){
-            draft.componentList.push(newComp);
-          }else{
-            // 插入到 index 后面
-            draft.componentList.splice(index+1,0,newComp);
-          }
-          draft.selectedId = newComp.fe_id;
-        },
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<ComponentInfoType>,
+      ) => {
+        const newComp = action.payload;
+        // 放置的位置 ...
+        const { selectedId, componentList } = draft;
+        const index = componentList.findIndex(
+          (item) => item.fe_id === selectedId,
+        );
+        if (index < 0) {
+          draft.componentList.push(newComp);
+        } else {
+          // 插入到 index 后面
+          draft.componentList.splice(index + 1, 0, newComp);
+        }
+        draft.selectedId = newComp.fe_id;
+      },
     ),
   },
 });
 
-export const { resetComponents, changeSelectedId,addComponent } = componentsSlice.actions;
+export const { resetComponents, changeSelectedId, addComponent } =
+  componentsSlice.actions;
 export default componentsSlice.reducer;

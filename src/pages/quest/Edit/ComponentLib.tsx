@@ -5,23 +5,25 @@ import {
 } from '@/components/QuestionComponents';
 import { Typography } from 'antd';
 import styles from './ComponentLib.module.scss';
-import {useDispatch} from "react-redux";
-import {addComponent} from "@/store/componentsReducer";
-import {nanoid} from "@reduxjs/toolkit";
+import { useDispatch } from 'react-redux';
+import { addComponent } from '@/store/componentsReducer';
+import { nanoid } from '@reduxjs/toolkit';
 
 const { Title } = Typography;
 function genComponent(comp: ComponentConfType) {
-  const {title, type,Component,defaultProps } = comp;
+  const { title, type, Component, defaultProps } = comp;
   const dispatch = useDispatch();
   // 点击添加到画布，并处于选中状态
-  function handleClick(){
+  function handleClick() {
     // TODO 存放到 mongodb中
-    dispatch(addComponent({
-      fe_id: nanoid(),
-      title,
-      type,
-      props: defaultProps
-    }))
+    dispatch(
+      addComponent({
+        fe_id: nanoid(),
+        title,
+        type,
+        props: defaultProps,
+      }),
+    );
   }
   return (
     <div key={type} className={styles.wrapper} onClick={handleClick}>
