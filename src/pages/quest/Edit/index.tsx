@@ -5,6 +5,7 @@ import useLoadQuestionData from '@/hooks/useLoadQuestionData.ts';
 import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '@/store/componentsReducer';
 import LeftPanel from '@/pages/quest/Edit/LeftPannel.tsx';
+import RightPanel from "@/pages/quest/Edit/RightPannel.tsx";
 
 const Edit: FC = () => {
   const { loading } = useLoadQuestionData();
@@ -25,7 +26,9 @@ const Edit: FC = () => {
               <EditCanvas loading={loading} />
             </div>
           </div>
-          <div className={styles['right']}>Right</div>
+          <div className={styles['right']}>
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>

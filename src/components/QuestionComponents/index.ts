@@ -14,6 +14,7 @@ export type ComponentConfType = {
   title: string;
   type: string;
   Component: FC<ComponentPropType>;
+  PropComponent: FC<ComponentPropType>;
   defaultProps: ComponentPropType;
 };
 
