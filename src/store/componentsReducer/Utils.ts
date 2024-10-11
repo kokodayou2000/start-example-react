@@ -4,6 +4,8 @@ export function getNextSelectedId(
   fe_id: string,
   componentList: Array<ComponentInfoType>,
 ) {
+  const visibleComponentList = componentList.filter((item) => !item.hidden);
+  componentList = visibleComponentList;
   const index = componentList.findIndex((item) => item.fe_id === fe_id);
   if (index < 0) return '';
   const len = componentList.length;

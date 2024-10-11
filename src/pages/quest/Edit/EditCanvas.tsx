@@ -28,7 +28,10 @@ const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
     dispatch(changeSelectedId(id));
   }
   const list = componentList.map((item) => {
-    const { fe_id } = item;
+    const { fe_id, hidden } = item;
+    if (hidden === true) {
+      return;
+    }
     // 拼接 classname
     const wrapperDefaultClassname = styles['component-wrapper'];
     const selectedClassName = styles.selected;

@@ -5,8 +5,8 @@ import useLoadQuestionData from '@/hooks/useLoadQuestionData.ts';
 import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '@/store/componentsReducer';
 import LeftPanel from '@/pages/quest/Edit/LeftPannel.tsx';
-import RightPanel from "@/pages/quest/Edit/RightPannel.tsx";
-import EditHeader from "@/pages/quest/Edit/EditHeader.tsx";
+import RightPanel from '@/pages/quest/Edit/RightPannel.tsx';
+import EditHeader from '@/pages/quest/Edit/EditHeader.tsx';
 
 const Edit: FC = () => {
   const { loading } = useLoadQuestionData();

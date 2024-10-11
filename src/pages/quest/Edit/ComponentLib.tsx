@@ -21,6 +21,7 @@ function genComponent(comp: ComponentConfType) {
         fe_id: nanoid(),
         title,
         type,
+          hidden: true,
         props: defaultProps,
       }),
     );

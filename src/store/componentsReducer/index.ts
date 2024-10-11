@@ -7,6 +7,7 @@ export type ComponentInfoRaw = {
   id: string;
   type: string;
   title: string;
+  hidden: boolean;
   props: string;
 };
 
@@ -14,6 +15,7 @@ export type ComponentInfoType = {
   fe_id: string; // 前端生成的，避免和后端 mongodb生成的重复
   type: string;
   title: string;
+  hidden: boolean;
   props: ComponentPropType;
 };
 // 一种列表的形式
@@ -89,6 +91,30 @@ export const componentsSlice = createSlice({
       const index = componentList.findIndex((item) => item.fe_id === removeId);
       componentList.splice(index, 1);
     }),
+    changeVisibleComponent: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ fe_id: string; hidden: boolean }>,
+      ) => {
+        const { componentList = [] } = draft;
+        const { fe_id, hidden } = action.payload;
+
+        let newSelectedId = '';
+        if (hidden) {
+          // 隐藏
+          // 重新计算selectId
+          newSelectedId = getNextSelectedId(fe_id, componentList);
+        } else {
+          // 重新计算selectId
+          newSelectedId = fe_id;
+        }
+        draft.selectedId = newSelectedId;
+        const currComp = componentList.find((item) => item.fe_id === fe_id);
+        if (currComp) {
+          currComp.hidden = hidden;
+        }
+      },
+    ),
   },
 });
 
@@ -98,5 +124,6 @@ export const {
   addComponent,
   changeComponentProps,
   removeSelectedComponent,
+  changeVisibleComponent,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
