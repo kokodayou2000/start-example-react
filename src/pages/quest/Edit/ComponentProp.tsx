@@ -33,7 +33,13 @@ const ComponentProp: FC = () => {
     dispatch(changeComponentProps({ fe_id, newProp }));
   }
 
-  return <PropComponent {...props} onChange={changeProps} disabled={locked || hidden} />;
+  return (
+    <PropComponent
+      {...props}
+      onChange={changeProps}
+      disabled={locked || hidden}
+    />
+  );
 };
 
 export default ComponentProp;

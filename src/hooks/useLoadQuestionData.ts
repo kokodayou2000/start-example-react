@@ -36,7 +36,7 @@ function useLoadQuestionData() {
       selectedId = componentList[0].fe_id;
     }
     // 将 component 存储到 reducer 中
-    dispatch(resetComponents({ componentList, selectedId: selectedId }));
+    dispatch(resetComponents({ componentList, selectedId: selectedId, copiedComponent: null }));
   }, [data]);
 
   useEffect(() => {
