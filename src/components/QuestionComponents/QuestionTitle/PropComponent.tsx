@@ -5,7 +5,7 @@ import { QuestionTitlePropsType } from '@/components/QuestionComponents/Question
 const PropComponent: FC<QuestionTitlePropsType> = (
   props: QuestionTitlePropsType,
 ) => {
-  const { text, center, level, onChange } = props;
+  const { text, center, level, onChange, disabled } = props;
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({ text, center, level });
@@ -20,6 +20,7 @@ const PropComponent: FC<QuestionTitlePropsType> = (
   return (
     <Form
       form={form}
+      disabled={disabled}
       layout="vertical"
       onValuesChange={handleValueChange}
       initialValues={{ text, center, level }}

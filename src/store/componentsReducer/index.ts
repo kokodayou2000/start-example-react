@@ -8,6 +8,7 @@ export type ComponentInfoRaw = {
   type: string;
   title: string;
   hidden: boolean;
+  locked: boolean;
   props: string;
 };
 
@@ -16,6 +17,7 @@ export type ComponentInfoType = {
   type: string;
   title: string;
   hidden: boolean;
+  locked: boolean;
   props: ComponentPropType;
 };
 // 一种列表的形式
@@ -115,6 +117,19 @@ export const componentsSlice = createSlice({
         }
       },
     ),
+    toggleComponentLocked: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ fe_id: string }>,
+      ) => {
+        const { componentList = [] } = draft;
+        const { fe_id } = action.payload;
+        const currComp = componentList.find((item) => item.fe_id === fe_id);
+        if (currComp) {
+          currComp.locked = !currComp.locked;
+        }
+      },
+    ),
   },
 });
 
@@ -125,5 +140,6 @@ export const {
   changeComponentProps,
   removeSelectedComponent,
   changeVisibleComponent,
+  toggleComponentLocked,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
