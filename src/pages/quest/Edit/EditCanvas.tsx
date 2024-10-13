@@ -7,6 +7,7 @@ import { getComponentConfByType } from '@/components/QuestionComponents';
 import { changeSelectedId, ComponentInfoType } from '@/store/componentsReducer';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import useBindCanvasKeyPress from "@/hooks/useBindCanvasKeyPress.ts";
 
 type PropsType = {
   loading: boolean;
@@ -51,6 +52,7 @@ const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
       </div>
     );
   });
+  useBindCanvasKeyPress()
   if (loading) {
     return (
       <div>
