@@ -9,7 +9,11 @@ const { Title } = Typography;
 const QuestionTitle: FC<QuestionTitlePropsType> = (
   props: QuestionTitlePropsType,
 ) => {
-  const { text, level, center } = { ...QuestionTitleDefaultProps, ...props };
+  const {
+    text,
+    level = {} as TitleLevel,
+    center,
+  } = { ...QuestionTitleDefaultProps, ...props };
   const genFontSize = (level: TitleLevel) => {
     if (level === 1) return '24px';
     if (level === 2) return '20px';
