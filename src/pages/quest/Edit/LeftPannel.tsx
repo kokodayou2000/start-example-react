@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
-import ComponentLib from "@/pages/quest/Edit/ComponentLib.tsx";
+import ComponentLib from '@/pages/quest/Edit/ComponentLib.tsx';
 
 const LeftPanel: FC = () => {
   const tabsItems = [

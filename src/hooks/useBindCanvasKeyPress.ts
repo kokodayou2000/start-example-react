@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {
   copySelectedComponent,
   pasteCopiedComponent,
-  removeSelectedComponent,
+  removeSelectedComponent, selectNextComponent, selectPrevComponent,
 } from '@/store/componentsReducer';
 function activeElementValidate() {
   const activeElement = document.activeElement;
@@ -33,6 +33,18 @@ function useBindCanvasKeyPress() {
   useKeyPress(['ctrl.v', 'meta.v'], () => {
     if (activeElementValidate()) {
       dispatch(pasteCopiedComponent());
+    }
+  });
+  // select up
+  useKeyPress(['uparrow'], () => {
+    if (activeElementValidate()) {
+      dispatch(selectPrevComponent());
+    }
+  });
+  // select up
+  useKeyPress(['downarrow'], () => {
+    if (activeElementValidate()) {
+      dispatch(selectNextComponent());
     }
   });
 }

@@ -7,7 +7,7 @@ import { getComponentConfByType } from '@/components/QuestionComponents';
 import { changeSelectedId, ComponentInfoType } from '@/store/componentsReducer';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import useBindCanvasKeyPress from "@/hooks/useBindCanvasKeyPress.ts";
+import useBindCanvasKeyPress from '@/hooks/useBindCanvasKeyPress.ts';
 
 type PropsType = {
   loading: boolean;
@@ -36,7 +36,7 @@ const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
     // 拼接 classname
     const wrapperDefaultClassname = styles['component-wrapper'];
     const selectedClassName = styles.selected;
-    const lockedClassName = styles.locked
+    const lockedClassName = styles.locked;
     const wrapperClassName = classNames({
       [wrapperDefaultClassname]: true,
       [selectedClassName]: fe_id === selectedId,
@@ -52,7 +52,7 @@ const EditCanvas: FC<PropsType> = ({ loading }: PropsType) => {
       </div>
     );
   });
-  useBindCanvasKeyPress()
+  useBindCanvasKeyPress();
   if (loading) {
     return (
       <div>

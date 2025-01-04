@@ -9,16 +9,18 @@ import {
 } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import {
-    changeVisibleComponent,
-    copySelectedComponent, pasteCopiedComponent,
-    removeSelectedComponent,
-    toggleComponentLocked,
+  changeVisibleComponent,
+  copySelectedComponent,
+  pasteCopiedComponent,
+  removeSelectedComponent,
+  toggleComponentLocked,
 } from '@/store/componentsReducer';
 import useGetComponentInfo from '@/hooks/useGetComponentInfo.ts';
 
 const EditToolbar: FC = () => {
   const dispatch = useDispatch();
-  const { selectedId, selectedComponent,copiedComponent } = useGetComponentInfo();
+  const { selectedId, selectedComponent, copiedComponent } =
+    useGetComponentInfo();
 
   function handleDelete() {
     dispatch(removeSelectedComponent());

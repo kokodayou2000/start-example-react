@@ -1,8 +1,11 @@
 import { ComponentPropType } from '@/components/QuestionComponents';
-import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { produce } from 'immer';
-import {getNextSelectedId, insertNewComponent} from '@/store/componentsReducer/Utils.ts';
-import _ from "lodash";
+import {
+  getNextSelectedId,
+  insertNewComponent,
+} from '@/store/componentsReducer/Utils.ts';
+import _ from 'lodash';
 
 export type ComponentInfoRaw = {
   id: string;
@@ -55,7 +58,7 @@ export const componentsSlice = createSlice({
         action: PayloadAction<ComponentInfoType>,
       ) => {
         const newComp = action.payload;
-        insertNewComponent(draft,newComp)
+        insertNewComponent(draft, newComp);
       },
     ),
 
@@ -135,15 +138,42 @@ export const componentsSlice = createSlice({
       draft.copiedComponent = _.cloneDeep(currSelectedComponent);
     }),
     pasteCopiedComponent: produce((draft: ComponentsStateType) => {
-      const { copiedComponent} = draft;
-      if (copiedComponent == null){
-        return
+      const { copiedComponent } = draft;
+      if (copiedComponent == null) {
+        return;
       }
       // 修改fe_id
       copiedComponent.fe_id = nanoid();
       // 插入组件
-      insertNewComponent(draft,copiedComponent)
-    })
+      insertNewComponent(draft, copiedComponent);
+    }),
+    selectPrevComponent: produce((draft: ComponentsStateType) => {
+      const { selectedId, componentList } = draft;
+      const selectedIndex = componentList.findIndex(
+        (c) => c.fe_id == selectedId,
+      );
+      if (selectedIndex < 0) {
+        // 未选择组件
+        return;
+      }
+      if (selectedIndex == 0) {
+        // 已经选择了第一个，无法向上选中
+        return;
+      }
+      draft.selectedId = componentList[selectedIndex - 1].fe_id;
+    }),
+    selectNextComponent: produce((draft: ComponentsStateType) => {
+      const { selectedId, componentList } = draft;
+      const length = componentList.length;
+      const selectedIndex = componentList.findIndex(
+        (c) => c.fe_id == selectedId,
+      );
+      if (selectedIndex >= length) {
+        // 已经选择了第一个，无法向上选中
+        return;
+      }
+      draft.selectedId = componentList[selectedIndex + 1].fe_id;
+    }),
   },
 });
 
@@ -157,5 +187,7 @@ export const {
   toggleComponentLocked,
   copySelectedComponent,
   pasteCopiedComponent,
+  selectPrevComponent,
+  selectNextComponent,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
