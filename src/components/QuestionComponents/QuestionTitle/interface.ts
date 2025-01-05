@@ -9,7 +9,7 @@ export type QuestionTitlePropsType = {
 };
 
 export const QuestionTitleDefaultProps: QuestionTitlePropsType = {
-  text: '默认标题',
+  text: '标题',
   level: 1,
   center: false,
 };

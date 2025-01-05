@@ -5,7 +5,7 @@ export type QuestionInputPropsType = {
   disabled?: boolean;
 };
 
-export const QuestionInputDefaultProps = {
-  title: '标题',
+export const QuestionInputDefaultProps:QuestionInputPropsType = {
+  title: '单行文本框',
   placeholder: '请输入',
-} as QuestionInputPropsType;
+}

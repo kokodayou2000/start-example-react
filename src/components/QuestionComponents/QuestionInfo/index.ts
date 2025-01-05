@@ -5,7 +5,7 @@ import {QuestionInfoDefaultProps} from "@/components/QuestionComponents/Question
 export * from './interface';
 
 export default {
-    title: '标题',
+    title: '问卷信息',
     type: 'questionInfo',
     Component,
     PropComponent,
