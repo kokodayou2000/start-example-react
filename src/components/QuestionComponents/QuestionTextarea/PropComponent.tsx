@@ -6,8 +6,6 @@ const PropComponent: FC<QuestionTextareaPropsType> = (
   props: QuestionTextareaPropsType,
 ) => {
   const { title, placeholder, onChange, disabled } = props;
-  console.log('title' + title);
-  console.log('placeholder' + placeholder);
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({ title, placeholder });

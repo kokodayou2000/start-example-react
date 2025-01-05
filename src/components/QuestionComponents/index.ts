@@ -14,6 +14,10 @@ import QuestionInfoConf, {
 import QuestionTextareaConf, {
   QuestionTextareaPropsType,
 } from '@/components/QuestionComponents/QuestionTextarea';
+
+import QuestionRadioConf, {
+  QuestionRadioPropsType,
+} from '@/components/QuestionComponents/QuestionRadio';
 import { FC } from 'react';
 
 // 各个组件的 prop type
@@ -21,6 +25,7 @@ export type ComponentPropType = QuestionInputPropsType &
   QuestionTitlePropsType &
   QuestionParagraphPropsType &
   QuestionTextareaPropsType &
+  QuestionRadioPropsType &
   QuestionInfoPropsType;
 
 // 组件的配置
@@ -39,16 +44,24 @@ const componentConfList: ComponentConfType[] = [
   QuestionParagraphConf,
   QuestionInfoConf,
   QuestionTextareaConf,
+  QuestionRadioConf,
 ];
 
 export const componentConfGroup = [
   {
+    groupId: 'textGroup',
     groupName: '文本显示',
-    components: [QuestionTitleConf, QuestionParagraphConf,QuestionInfoConf],
+    components: [QuestionTitleConf, QuestionParagraphConf, QuestionInfoConf],
   },
   {
+    groupId: 'inputGroup',
     groupName: '用户输入',
-    components: [QuestionInputConf,QuestionTextareaConf],
+    components: [QuestionInputConf, QuestionTextareaConf],
+  },
+  {
+    groupId: 'chooseGroup',
+    groupName: '用户选择',
+    components: [QuestionRadioConf],
   },
 ];
 

@@ -11,7 +11,7 @@ const PropComponent: FC<QuestionParagraphPropsType> = (
 
   useEffect(() => {
     form.setFieldsValue({ text, isCenter });
-  }, [text, isCenter]);
+  }, [text, isCenter, form]);
 
   function handleValuesChange() {
     if (onChange) {

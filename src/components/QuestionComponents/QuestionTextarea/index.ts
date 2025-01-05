@@ -1,6 +1,6 @@
 import Component from '@/components/QuestionComponents/QuestionTextarea/Component.tsx';
 import PropComponent from '@/components/QuestionComponents/QuestionTextarea/PropComponent.tsx';
-import {QuestionTextareaDefaultProps} from "@/components/QuestionComponents/QuestionTextarea/interface.ts";
+import { QuestionTextareaDefaultProps } from '@/components/QuestionComponents/QuestionTextarea/interface.ts';
 
 export * from './interface';
 
